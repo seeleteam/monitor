@@ -270,8 +270,14 @@ Node.prototype.filterNodeLatency = function (newData, oldData) {
     data: {}
   }
   log.debug('[Node] filterNodeLatency, oldData: ', oldData, ' newData: ', newData)
-  if (common.isUndefined(newData) || common.isUndefined(oldData) || newData == null || oldData == null) {
+  if (common.isUndefined(newData) || newData == null) {
     return resData
+  }
+  if (common.isUndefined(oldData) || oldData == null) {
+    return {
+      updateFlag: 1,
+      data: newData
+    }
   }
 
   if (newData !== oldData) {

@@ -120,7 +120,8 @@ BowerServer.prototype.BowerSetupListener = function () {
     if (self.monitorDataMain.monitorUpdateFlag) {
       log.debug('write to client monitorDataMain: ', self.monitorDataMain)
       self.bowerDataMain.transferToBowerData(self.monitorDataMain)
-      log.debug('write to client bowerDataMain: ', self.bowerDataMain)
+      log.debug('write to client bowerDataMain: ')
+      log.debug(self.bowerDataMain.printAll())
       self.monitorDataMain.monitorUpdateFlag = false
       if (self.bowerDataMain.blockUpdateFlag || self.bowerDataMain.nodeUpdateFlag) {
         self.bowerDataMain.blockUpdateFlag = false
@@ -143,7 +144,8 @@ BowerServer.prototype.BowerSetupListener = function () {
     if (self.monitorDataTest.monitorUpdateFlag) {
       log.debug('write to client monitorDataTest: ', self.monitorDataTest)
       self.bowerDataTest.transferToBowerData(self.monitorDataTest)
-      log.debug('write to client bowerDataTest: ', self.bowerDataTest)
+      log.debug('write to client bowerDataTest: ')
+      log.debug(self.bowerDataTest.printAll())
       self.monitorDataTest.monitorUpdateFlag = false
       if (self.bowerDataTest.blockUpdateFlag || self.bowerDataTest.nodeUpdateFlag) {
         self.bowerDataTest.blockUpdateFlag = false

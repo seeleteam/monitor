@@ -148,7 +148,7 @@ VueClient.prototype.VueSetupListener = function () {
 
       self.vueClient.send(JSON.stringify(sendData))
       log.info('node-ping data:', reqData)
-    }, 10000)
+    }, 3000)
 }
 
 module.exports = VueClient

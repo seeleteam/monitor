@@ -132,7 +132,7 @@ ApiServer.prototype.ApiSetupListener = function () {
     })
 
     // ----------------------------------------------------------------
-    // Event process function
+    // Event process function：process hello event
     var funcHello = function (server, client, data) {
       log.info('[APIServer] process: client hello.')
 
@@ -172,6 +172,7 @@ ApiServer.prototype.ApiSetupListener = function () {
       }
     }
 
+    // Event process function: process nodeStats event
     var funcNodeStats = function (server, client, data) {
       log.info('[APIServer] process: client stats.')
 
@@ -215,6 +216,7 @@ ApiServer.prototype.ApiSetupListener = function () {
       }
     }
 
+    // Event process function: process nodeblock event
     var funcNodeBlock = function (server, client, data) {
       log.info('[APIServer] process: client block.')
 
@@ -258,6 +260,7 @@ ApiServer.prototype.ApiSetupListener = function () {
       }
     }
 
+    // Event process function: process nodePing event
     var funcNodePing = function (server, client, data) {
       log.info('[APIServer] process: client node-ping.')
       var pingResData
@@ -298,6 +301,7 @@ ApiServer.prototype.ApiSetupListener = function () {
       log.debug('node-pong data:', pingResData)
     }
 
+    // Event process function: process nodelatency event
     var funcNodeLatency = function (server, client, data) {
       log.info('[APIServer] process: client latency.')
       if (common.isUndefined(data) || common.isUndefined(data.id) || common.isUndefined(data.latency)) {
@@ -318,11 +322,9 @@ ApiServer.prototype.ApiSetupListener = function () {
           return false
         } else {
           testExistFlag = 1
-          nodeInfo = common.cloneDeep(server.monitorDataTest.nodeList.nodeItems[nodeIndex])
         }
       } else {
         mainExistFlag = 1
-        nodeInfo = common.cloneDeep(server.monitorDataMain.nodeList.nodeItems[nodeIndex])
       }
       // process node.block and write
       if (mainExistFlag === 1) {
@@ -345,7 +347,8 @@ ApiServer.prototype.ApiSetupListener = function () {
     }
   })
 
-  var clientConnTimeout = process.env.WS_CLIENT_CONN_TIMEOUT || 30
+  // interval: auto check client offline and update node active false
+  var clientConnTimeout = process.env.WS_CLIENT_CONN_TIMEOUT || 15
   var clientConnInterval = process.env.WS_CLIENT_CONN_INTERVAL || 30000
   log.debug('clientConnTimeout: ', clientConnTimeout, ' clientConnInterval: ', clientConnInterval)
   setInterval(function () {
@@ -361,6 +364,7 @@ ApiServer.prototype.ApiSetupListener = function () {
     }
   }, clientConnInterval)
 
+  // Event process function: process nodeStatsRealTime event
   var funcNodeStatsRealTime = function (server, client, nodeId, statFlag) {
     if (common.isUndefined(nodeId)) {
       log.error('[APIServer] state offline: nodeId is null.')
