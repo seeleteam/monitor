@@ -358,4 +358,26 @@ BowerData.prototype.getBowerData = function () {
   }
 }
 
+/**
+ * @method printAll
+ * @desc print current bowerData 
+ */
+BowerData.prototype.printAll = function () {
+  log.debug('===========current bowerData=============')
+  log.debug('bestBlock: ', this.bestBlock)
+  log.debug('lastBlock: ', this.lastBlock)
+  log.debug('avgBlockTime: ', this.avgBlockTime)
+  log.debug('activeNodes: ', this.activeNodes)
+  log.debug('totalNodes: ', this.totalNodes)
+  log.debug('avgNetHashRate: ', this.avgNetHashRate)
+  log.debug('totalTransactions: ', this.totalTransactions)
+  log.debug('nodeItems: ')
+  for (var i=0;i < this.nodeItems.length; i++) {
+    log.debug('node[', i, ']: ', this.nodeItems[i])
+  }
+  log.debug('statCharData: ', this.statCharData)
+  log.debug('blockUpdateFlag: ', this.blockUpdateFlag)
+  log.debug('nodeUpdateFlag: ', this.nodeUpdateFlag)
+}
+
 module.exports = BowerData

@@ -20,7 +20,21 @@
       sortable
       min-width="100">
       <template slot-scope="scope">
-        <span class="geo" :class="{'th-offline':scope.row.state==0}">{{scope.row.nodeGeo|filterNodeGeo}}</span>
+        <el-popover
+          placement="top-start"
+          trigger="hover"
+        >
+          <div class="popover-wrap" v-if="scope.row.nodeGeo">
+            <div class="content-wrap"><span class="popover-content">{{$t("message.nodeGeoTip.nodeGeoInfo")}}</span></div>
+            <div class="content-wrap">&nbsp;&nbsp;{{$t("message.nodeGeoTip.continentName")}}: <span class="popover-content">{{scope.row.nodeGeo.continentName}}</span></div>
+            <div class="content-wrap">&nbsp;&nbsp;{{$t("message.nodeGeoTip.continentCode")}}: <span class="popover-content">{{scope.row.nodeGeo.continentCode}}</span></div>
+            <div class="content-wrap">&nbsp;&nbsp;{{$t("message.nodeGeoTip.countryName")}}: <span class="popover-content">{{scope.row.nodeGeo.countryName}}</span></div>
+            <div class="content-wrap">&nbsp;&nbsp;{{$t("message.nodeGeoTip.countryCode")}}: <span class="popover-content">{{scope.row.nodeGeo.countryCode}}</span></div>
+            <div class="content-wrap">&nbsp;&nbsp;{{$t("message.nodeGeoTip.regionName")}}: <span class="popover-content">{{scope.row.nodeGeo.regionName}}</span></div>
+            <div class="content-wrap">&nbsp;&nbsp;{{$t("message.nodeGeoTip.regionCode")}}: <span class="popover-content">{{scope.row.nodeGeo.regionCode}}</span></div>
+          </div>
+          <span slot="reference" class="geo" :class="{'th-offline':scope.row.state==0}">{{scope.row.nodeGeo|filterNodeGeo}}</span>
+        </el-popover>
       </template>
     </el-table-column>
     <el-table-column

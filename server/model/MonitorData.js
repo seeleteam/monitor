@@ -92,7 +92,9 @@ MonitorData.prototype.addData = function (data, callback) {
       } 
       if (!common.isUndefined(filterResult.data.block) && !common.isUndefined(filterResult.data.block.height)) {
         resData.block = filterResult.data.block
-      } 
+      }
+      resData.block.arrived = common.now()
+      resData.block.blockTime = 0
       if (!common.isUndefined(filterResult.data.latency)) {
         resData.stats.latency = filterResult.data.latency
       }
@@ -173,6 +175,8 @@ MonitorData.prototype.updateData = function (data, callback) {
       if (!common.isUndefined(filterResult.data.block) && !common.isUndefined(filterResult.data.block.height)) {
         resData.block = filterResult.data.block
       }
+      resData.block.arrived = common.now()
+      resData.block.blockTime = 0
       if (!common.isUndefined(filterResult.data.latency)) {
         resData.stats.latency = filterResult.data.latency
       }
@@ -248,6 +252,8 @@ MonitorData.prototype.updateNodeLatency = function (data, callback) {
            filterResult.updateFlag) {
       this.monitorUpdateFlag = true
       this.nodeList.nodeItems[filterResult.index].stats.latency = filterResult.data.stats.latency
+      //if latency has diff, update the stats.active true
+      this.nodeList.nodeItems[filterResult.index].stats.active = true
     }
   }
 
