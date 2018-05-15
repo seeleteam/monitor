@@ -253,7 +253,7 @@ export default {
 }
 .el-table th,
 .el-table tr {
-  background: none;
+  background: transparent !important;
 }
 .el-table thead {
   color: #aacbf7;
@@ -275,7 +275,7 @@ export default {
   }
 }
 .el-table--enable-row-hover .el-table__body tr:hover > td {
-  background: #0b3365;
+  background: #0b3365 !important;
 }
 .table-list-wrap{
   background: url("../assets/imgs/bg_04.png") no-repeat;

@@ -1,0 +1,26 @@
+{
+    "apps" : [
+      {
+        "name" : "monitor_server",
+        "script" : "server/app.js",
+        "watch": ["server"],
+        "interpreter": "node",
+        "env": {
+          "NODE_ENV": "development",
+          "SERVER_NGINX": 1,
+          "WS_CLIENT_CONN_TIMEOUT": 15,
+          "WS_CLIENT_CONN_INTERVAL": 30000,
+          "SERVER_PORT": 3000,
+          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000
+        },
+        "env_production" : {
+          "NODE_ENV": "production",
+          "SERVER_NGINX": 1,
+          "WS_CLIENT_CONN_TIMEOUT": 15,
+          "WS_CLIENT_CONN_INTERVAL": 30000,
+          "SERVER_PORT": 3000,
+          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000
+        }
+      }
+    ]
+  }
