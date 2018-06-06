@@ -208,7 +208,9 @@ BowerData.prototype.calcAvgNetHashRate = function (bestBlockInfo, avgBlockTime) 
   if (common.isUndefined(bestBlockInfo) || common.isUndefined(bestBlockInfo.block.difficulty) || avgBlockTime <= 0) {
     return tmpAvgNetHashRate
   }
-  tmpAvgNetHashRate = (bestBlockInfo.block.difficulty / avgBlockTime) / 1000
+
+  var v_avgBlockTime = avgBlockTime / (1000 * 1000)
+  tmpAvgNetHashRate = (bestBlockInfo.block.difficulty / avgBlockTime)
 
   return tmpAvgNetHashRate.toFixed(2) * 1000
 }
