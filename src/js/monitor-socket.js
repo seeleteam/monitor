@@ -55,7 +55,7 @@ VueClient.prototype.VueSetupListener = function () {
   }
 
   // ===========event about connect=============================
-  // this.vueClient.on('open', function open(){
+  // open event
   this.vueClient.onopen = function () {
     heartCheck.reset()
     heartCheck.start()
@@ -66,16 +66,19 @@ VueClient.prototype.VueSetupListener = function () {
     self.vueClient.send(JSON.stringify(resData))
   }
 
+  // close event
   this.vueClient.onclose = function (code, reason) {
     console.log('[BowerClient] client disconnect,code: ', code, ' reason: ', reason)
     reconnect(address)
   }
 
+  // error event
   this.vueClient.onerror = function (err) {
     console.log('[BowerClient] Socket error:', err)
     reconnect(address)
   }
 
+  // message event
   this.vueClient.onmessage = function (event) {
     heartCheck.reset()
     heartCheck.start()

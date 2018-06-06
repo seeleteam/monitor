@@ -133,6 +133,15 @@ export default {
                 color: '#fff',
                 width: 1
               }
+            },
+            min: function (value) {
+              if (value.min <= 20) {
+                return 0
+              }
+              return value.min - 20
+            },
+            max: function (value) {
+              return value.max + 20
             }
           }
         ],
@@ -195,6 +204,15 @@ export default {
                 color: '#fff',
                 width: 1
               }
+            },
+            min: function (value) {
+              if (value.min <= 10) {
+                return 0
+              }
+              return value.min - 10
+            },
+            max: function (value) {
+              return value.max + 10
             }
           }
         ],
@@ -240,6 +258,15 @@ export default {
                 color: '#fff',
                 width: 1
               }
+            },
+            min: function (value) {
+              if (value.min <= 100000) {
+                return 0
+              }
+              return value.min - 100000
+            },
+            max: function (value) {
+              return value.max + 100000            
             }
           }
         ],
