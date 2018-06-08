@@ -266,7 +266,7 @@ export default {
               return value.min - 100000
             },
             max: function (value) {
-              return value.max + 100000            
+              return value.max + 100000
             }
           }
         ],

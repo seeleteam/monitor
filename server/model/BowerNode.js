@@ -41,7 +41,7 @@ BowerNode.prototype.transferNode = function (monitorNode) {
   this.nodeId = monitorNode.id
   this.state = monitorNode.stats.active ? 1 : 0
   this.nodeName = monitorNode.info.name
-  this.nodeType = monitorNode.info.netVersion + '/' + monitorNode.info.protocol +
+  this.nodeType = monitorNode.info.netVersion + '/' + monitorNode.info.shard + '/' + monitorNode.info.protocol +
        '/' + monitorNode.info.os + '/' + monitorNode.info.os_v
   this.nodeIsMining = monitorNode.stats.mining
   this.nodePeers = monitorNode.stats.peers
@@ -123,6 +123,7 @@ BowerNode.prototype.hasDiffNodeInfo = function (newInfo, oldInfo) {
         newInfo.os_v !== oldInfo.os_v ||
         newInfo.client !== oldInfo.client ||
         newInfo.netVersion !== oldInfo.netVersion ||
+        newInfo.shard !== oldInfo.shard ||        
         newInfo.protocol !== oldInfo.protocol ||
         newInfo.api !== oldInfo.api ||
         newInfo.port !== oldInfo.port ||

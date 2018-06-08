@@ -7,11 +7,12 @@
         "interpreter": "node",
         "env": {
           "NODE_ENV": "development",
-          "SERVER_NGINX": 1,
+          "SERVER_NGINX": 0,
           "WS_CLIENT_CONN_TIMEOUT": 15,
           "WS_CLIENT_CONN_INTERVAL": 30000,
           "SERVER_PORT": 3000,
-          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000
+          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000,
+          "NODE_SHARD": 1
         },
         "env_production" : {
           "NODE_ENV": "production",
@@ -19,7 +20,8 @@
           "WS_CLIENT_CONN_TIMEOUT": 15,
           "WS_CLIENT_CONN_INTERVAL": 30000,
           "SERVER_PORT": 3000,
-          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000
+          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000,
+          "NODE_SHARD": 1
         }
       }
     ]
