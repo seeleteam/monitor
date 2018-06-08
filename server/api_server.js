@@ -28,7 +28,7 @@ ApiServer.prototype.ApiSetupListener = function () {
   log.debug('test monitor data: ', this.monitorDataTest)
   this.apiServer.on('connection', function connection (client, request) {
     self.api_client = client
-    var clientIp = process.env.SERVER_NGINX ? request.headers['x-forwarded-for'].split(/\s*,\s*/)[0] : request.connection.remoteAddress
+    var clientIp = process.env.SERVER_NGINX === 1 ? request.headers['x-forwarded-for'].split(/\s*,\s*/)[0] : request.connection.remoteAddress
     var ipRegx = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
     var ipResult = ipRegx.exec(clientIp)
     if (!common.isUndefined(ipResult) && ipResult !== null && ipResult.length !== 0) {
@@ -143,6 +143,11 @@ ApiServer.prototype.ApiSetupListener = function () {
         // client.end(undefined, { reconnect: true });
         return false
       }
+      if (process.env.NODE_SHARD !== data.shard) {
+        client.close()
+        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+        return false
+      }
       // update clientStat timestamp
       var stateIndex = common.findIndex(server.clientStateList, {id: data.id})
       if (stateIndex < 0) {
@@ -151,7 +156,7 @@ ApiServer.prototype.ApiSetupListener = function () {
         server.clientStateList[stateIndex].timestamp = common.now()
       }      
       // process data and write
-      if (data.info.netVersion === 1) {
+      if (data.netVersion === 1) {
         server.monitorDataMain.addData(data, function (err) {
           if (err !== null) {
             log.error('[APIServer] hello: add data error:', err)
@@ -180,6 +185,10 @@ ApiServer.prototype.ApiSetupListener = function () {
         log.error('[APIServer] stats: node stats is null.')
         return false
       }
+      if (process.env.NODE_SHARD !== data.shard) {
+        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+        return false
+      }      
       // find node info by node id
       var nodeIndex = server.monitorDataMain.nodeList.findIndex({id: data.id})
       var mainExistFlag = 0
@@ -224,6 +233,10 @@ ApiServer.prototype.ApiSetupListener = function () {
         log.error('[APIServer] block: node block is null.')
         return false
       }
+      if (process.env.NODE_SHARD !== data.shard) {
+        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+        return false
+      }       
       // find node info by node id
       var nodeIndex = server.monitorDataMain.nodeList.findIndex({id: data.id})
       var mainExistFlag = 0
@@ -284,6 +297,10 @@ ApiServer.prototype.ApiSetupListener = function () {
           serverTime: common.now()
         }
       }
+      if (process.env.NODE_SHARD !== data.shard) {
+        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+        return false
+      } 
       pingResData = {
         'emit': [
           'node-pong',
@@ -309,7 +326,10 @@ ApiServer.prototype.ApiSetupListener = function () {
         return false
       }
       log.debug('latency data:', data)
-
+      if (process.env.NODE_SHARD !== data.shard) {
+        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+        return false
+      } 
       // find node info by node id
       var nodeIndex = server.monitorDataMain.nodeList.findIndex({id: data.id})
       var mainExistFlag = 0

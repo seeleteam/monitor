@@ -23,7 +23,7 @@ cd monitor
 # install the dependencies
 npm install
 # start monitor vue backend
-node server/app.js
+pm2 start config/process.json --env development
 # start monitor vue front
 npm start
 ```
@@ -38,7 +38,7 @@ npm install
 # build production output
 npm run build
 # start monitor vue backend
-pm2 start config/process.json
+pm2 start config/process.json --env production
 # deploy monitor vue front
 cp -r dist /usr/local/nginx/seele-monitor
 # config nginx server
@@ -119,7 +119,7 @@ npm test
 ### pm2 commands
 ``` bash
 # start monitor server
-pm2 start config/process.json
+pm2 start config/process.json --env development/production
 # stop monitor server
 pm2 stop config/process.json
 # restart monitor server

@@ -25,7 +25,8 @@ var VueClient = function VueClient () {
       os: 'test_os_1',
       os_v: 'test_os_v1',
       client: 'test_client_1',
-      netVersion: '1',
+      netVersion: 1,
+      shard: 1,      
       protocol: 'test_protocol_1',
       api: 'test_api_1',
       port: 30000,
@@ -45,7 +46,9 @@ var VueClient = function VueClient () {
       difficulty: 42090990,
       txcount: 61,
       miners: 'test_minier_1'
-    }
+    },
+    netVersion: 1,
+    shard: 1
   }
   return this
 }
@@ -77,7 +80,8 @@ VueClient.prototype.VueSetupListener = function () {
       resData = {
         id: data.id,
         latency: Math.ceil((common.now() - data.clientTime) / 2),
-        netVersion: self.nodeInfo.info.netVersion
+        netVersion: self.nodeInfo.info.netVersion,
+        shard: self.nodeInfo.info.shard        
       }
     }
     var sendData = {
@@ -118,7 +122,8 @@ VueClient.prototype.VueSetupListener = function () {
             resData = {
               id: dataInfo.id,
               latency: Math.ceil((common.now() - dataInfo.clientTime) / 2),
-              netVersion: self.nodeInfo.info.netVersion
+              netVersion: self.nodeInfo.info.netVersion,
+              shard: self.nodeInfo.info.shard
             }
           }
           var sendData = {

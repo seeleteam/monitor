@@ -27,6 +27,7 @@ var Node = function Node (data) {
     os_v: null,
     client: null,
     netVersion: null,
+    shard: null,
     protocol: null,
     api: null,
     port: null,
@@ -204,6 +205,7 @@ Node.prototype.filterNodeInfo = function (newData, oldData) {
         newData.os_v !== oldData.os_v ||
         newData.client !== oldData.client ||
         newData.netVersion !== oldData.netVersion ||
+        newData.shard !== oldData.shard ||
         newData.protocol !== oldData.protocol ||
         newData.api !== oldData.api ||
         newData.port !== oldData.port) {

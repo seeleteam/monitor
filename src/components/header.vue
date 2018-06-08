@@ -5,7 +5,7 @@
         <img class="logo" src="../assets/imgs/logo.png" alt="logo">
         <div class="select-wrap fr">
             <span>
-              <label class="lg-show" for="">{{$t("message.monitorNetwork")}}</label>
+              <!-- TODO: open it when main net online -->
               <!-- <el-select v-model="value" class="el-select-wrap">
                 <el-option
                   v-for="item in networkList"
@@ -14,10 +14,11 @@
                   :value="item.label">
                 </el-option>
               </el-select> -->
+              <!-- <label class="lg-show" for="">{{$t("message.monitorNetwork")}}</label>
               <select id="selectId" class="selset-option" @change="chooseValue()">
                 <option id="1" :selected="selectValue==1?'selected':''" >{{$t("networks.main")}}</option>
                 <option id="2" :selected="selectValue==2?'selected':''" >{{$t("networks.test")}}</option>
-              </select>
+              </select> -->
             </span>
             <span class="language-wrap">
               <label class="lg-show" for="">{{$t("message.language")}}</label>
@@ -36,16 +37,16 @@
 export default {
   data () {
     return {
-      selectValue: 1,
+      selectValue: 2,
       selectLanguage: 'en'
     }
   },
   methods: {
-    chooseValue () {
-      var objS = document.getElementById('selectId')
-      this.selectValue = objS.options[objS.selectedIndex].id
-      this.$emit('changeSelect', this.selectValue)
-    },
+    // chooseValue () {
+    //   var objS = document.getElementById('selectId')
+    //   this.selectValue = objS.options[objS.selectedIndex].id
+    //   this.$emit('changeSelect', this.selectValue)
+    // },
     chooseLanguage () {
       let locale = this.$i18n.locale
       switch (locale) {
