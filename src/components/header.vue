@@ -2,7 +2,8 @@
 <template>
   <div class="header-wrap">
       <div class="header">
-        <img class="logo" src="../assets/imgs/logo.png" alt="logo">
+        <!-- TODO use monitor-frame display shard info, this logo no use -->
+        <!-- <img class="logo" src="../assets/imgs/logo.png" alt="logo"> -->
         <div class="select-wrap fr">
             <span>
               <!-- TODO: open it when main net online -->
@@ -37,8 +38,9 @@
 export default {
   data () {
     return {
-      selectValue: 2,
-      selectLanguage: 'en'
+      // TODO: TestNet use 1
+      selectValue: 1,
+      selectLanguage: this.$i18n.locale
     }
   },
   methods: {

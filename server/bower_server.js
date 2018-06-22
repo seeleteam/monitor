@@ -116,6 +116,7 @@ BowerServer.prototype.BowerSetupListener = function () {
     }
   })
 
+  var bowerServerDataInterval = process.env.BOWER_SERVER_DATA_UPDATE_INTERVAL || 5000
   setInterval(function () {
     if (self.monitorDataMain.monitorUpdateFlag) {
       log.debug('write to client monitorDataMain: ', self.monitorDataMain)
@@ -164,7 +165,7 @@ BowerServer.prototype.BowerSetupListener = function () {
         }
       }
     }
-  }, process.env.BOWER_SERVER_DATA_UPDATE_INTERVAL || 5000)
+  }, Number(bowerServerDataInterval))
 }
 
 module.exports = BowerServer

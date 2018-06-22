@@ -40,7 +40,7 @@ BowerNode.prototype.transferNode = function (monitorNode) {
 
   this.nodeId = monitorNode.id
   this.state = monitorNode.stats.active ? 1 : 0
-  this.nodeName = monitorNode.info.name
+  this.nodeName = monitorNode.info.node
   this.nodeType = monitorNode.info.netVersion + '/' + monitorNode.info.shard + '/' + monitorNode.info.protocol +
        '/' + monitorNode.info.os + '/' + monitorNode.info.os_v
   this.nodeIsMining = monitorNode.stats.mining

@@ -28,7 +28,8 @@ ApiServer.prototype.ApiSetupListener = function () {
   log.debug('test monitor data: ', this.monitorDataTest)
   this.apiServer.on('connection', function connection (client, request) {
     self.api_client = client
-    var clientIp = process.env.SERVER_NGINX === 1 ? request.headers['x-forwarded-for'].split(/\s*,\s*/)[0] : request.connection.remoteAddress
+    var NGINX_FLAG = process.env.SERVER_NGINX || 0
+    var clientIp = Number(NGINX_FLAG) === 1 ? request.headers['x-forwarded-for'].split(/\s*,\s*/)[0] : request.connection.remoteAddress
     var ipRegx = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
     var ipResult = ipRegx.exec(clientIp)
     if (!common.isUndefined(ipResult) && ipResult !== null && ipResult.length !== 0) {
@@ -64,7 +65,12 @@ ApiServer.prototype.ApiSetupListener = function () {
               })
               res.on('end', function () {
                 var data = Buffer.concat(chunks, size)
-                var geoData = JSON.parse(data.toString())
+                var geoData
+                try {
+                  geoData = JSON.parse(data.toString())
+                } catch (err) {
+                  log.err('[APIServer] geoData format not right, maybe get geoData error!')
+                }
                 if (!common.isUndefined(geoData) && !common.isUndefined(geoData.geoplugin_status) &&
                               geoData.geoplugin_status === 200) {
                   dataInfo.geo = {
@@ -143,9 +149,9 @@ ApiServer.prototype.ApiSetupListener = function () {
         // client.end(undefined, { reconnect: true });
         return false
       }
-      if (process.env.NODE_SHARD !== data.shard) {
+      if (Number(process.env.NODE_SHARD) !== data.shard) {
         client.close()
-        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+        log.error('[APIServer] hello: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
       }
       // update clientStat timestamp
@@ -185,8 +191,8 @@ ApiServer.prototype.ApiSetupListener = function () {
         log.error('[APIServer] stats: node stats is null.')
         return false
       }
-      if (process.env.NODE_SHARD !== data.shard) {
-        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+      if (Number(process.env.NODE_SHARD) !== data.shard) {
+        log.error('[APIServer] stats: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
       }      
       // find node info by node id
@@ -233,8 +239,8 @@ ApiServer.prototype.ApiSetupListener = function () {
         log.error('[APIServer] block: node block is null.')
         return false
       }
-      if (process.env.NODE_SHARD !== data.shard) {
-        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+      if (Number(process.env.NODE_SHARD) !== data.shard) {
+        log.error('[APIServer] block: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
       }       
       // find node info by node id
@@ -297,8 +303,8 @@ ApiServer.prototype.ApiSetupListener = function () {
           serverTime: common.now()
         }
       }
-      if (process.env.NODE_SHARD !== data.shard) {
-        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+      if (Number(process.env.NODE_SHARD) !== data.shard) {
+        log.error('[APIServer] ping: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
       } 
       pingResData = {
@@ -326,8 +332,8 @@ ApiServer.prototype.ApiSetupListener = function () {
         return false
       }
       log.debug('latency data:', data)
-      if (process.env.NODE_SHARD !== data.shard) {
-        log.error('[APIServer] hello: node shard not equal ', process.env.NODE_SHARD)
+      if (Number(process.env.NODE_SHARD) !== data.shard) {
+        log.error('[APIServer] latency: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
       } 
       // find node info by node id
@@ -378,11 +384,11 @@ ApiServer.prototype.ApiSetupListener = function () {
       if (common.isUndefined(clientState) || common.isUndefined(clientState.id)) {
         continue
       }
-      if ((common.now() - self.clientStateList[i].timestamp) / 1000 >= clientConnTimeout) {
+      if ((common.now() - self.clientStateList[i].timestamp) / 1000 >= Number(clientConnTimeout)) {
         funcNodeStatsRealTime(self, self.api_client, self.clientStateList[i].id, false)
       }
     }
-  }, clientConnInterval)
+  }, Number(clientConnInterval)
 
   // Event process function: process nodeStatsRealTime event
   var funcNodeStatsRealTime = function (server, client, nodeId, statFlag) {

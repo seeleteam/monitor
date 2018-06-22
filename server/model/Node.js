@@ -208,6 +208,7 @@ Node.prototype.filterNodeInfo = function (newData, oldData) {
         newData.shard !== oldData.shard ||
         newData.protocol !== oldData.protocol ||
         newData.api !== oldData.api ||
+        newData.node !== oldData.node ||        
         newData.port !== oldData.port) {
     resData.updateFlag = 1
     resData.data = newData

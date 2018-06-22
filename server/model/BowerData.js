@@ -164,12 +164,20 @@ BowerData.prototype.calcAvgBlockTime = function (monitorData) {
 
   var calcBlockItems = monitorData.blockList.blockItems
   if (calcBlockItems.length === 1) {
-    if (common.isUndefined(calcBlockItems[0].arrived)) {
-      // if(common.isUndefined(calcBlockItems[0].timestamp)) {
+    // stat by the time of block arrived monitor
+    // if (common.isUndefined(calcBlockItems[0].arrived)) {
+    //   return tmpAvgBlockTime
+    // } else {
+    //   return common.now() - calcBlockItems[0].arrived
+    // }
+    if (common.isUndefined(calcBlockItems[0].timestamp)) {
       return tmpAvgBlockTime
     } else {
-      // return common.now() - calcBlockItems[0].timestamp;
-      return common.now() - calcBlockItems[0].arrived
+      if (String(calcBlockItems[0].timestamp).length < 13) {
+        return common.now() - calcBlockItems[0].timestamp * 1000
+      } else {
+        return common.now() - calcBlockItems[0].timestamp
+      }
     }
   }
 
@@ -185,8 +193,12 @@ BowerData.prototype.calcAvgBlockTime = function (monitorData) {
     }
     calcBlockNum++
     // calc by arrived
-    // calcBlockTimeSum += currentBlock.timestamp - preBlock.timestamp;
-    calcBlockTimeSum += currentBlock.arrived - preBlock.arrived
+    // calcBlockTimeSum += currentBlock.arrived - preBlock.arrived
+    if (String(currentBlock.timestamp).length < 13) { 
+      calcBlockTimeSum += currentBlock.timestamp * 1000 - preBlock.timestamp * 1000
+    } else {
+      calcBlockTimeSum += currentBlock.timestamp - preBlock.timestamp
+    }
   }
   if (calcBlockNum > 0) {
     tmpAvgBlockTime = calcBlockTimeSum / calcBlockNum
@@ -210,7 +222,7 @@ BowerData.prototype.calcAvgNetHashRate = function (bestBlockInfo, avgBlockTime) 
   }
 
   var v_avgBlockTime = avgBlockTime / (1000 * 1000)
-  tmpAvgNetHashRate = (bestBlockInfo.block.difficulty / avgBlockTime)
+  tmpAvgNetHashRate = (bestBlockInfo.block.difficulty / v_avgBlockTime)
 
   return tmpAvgNetHashRate.toFixed(2) * 1000
 }
@@ -355,7 +367,7 @@ BowerData.prototype.getBowerData = function () {
     avgNetHashRate: this.avgNetHashRate,
     totalTransactions: this.totalTransactions,
     // nodeItems: this.nodeItems,
-    nodeItems: common.orderBy(this.nodeItems, 'nodeLatency', 'asc'),
+    nodeItems: common.orderBy(this.nodeItems, function(item) {if(item.state === 1) return Number(item.nodeLatency)}),
     statCharData: this.statCharData
   }
 }
