@@ -43,11 +43,18 @@ BlockList.prototype.addData = function (data) {
     // set the attribute of current block
     data.arrived = common.now()
     data.lastHeight = maxHeightBlock.height
-    data.blockTime = 0
     // update the blocktime of last block
     if (maxHeightBlock.height > 0) {
-      var maxHeightBlockIndex = this.findIndex({'height': maxHeightBlock.height})
-      this.blockItems[maxHeightBlockIndex].blockTime = data.arrived - maxHeightBlock.arrived
+      // stat by the time of block arrived monitor
+      // var maxHeightBlockIndex = this.findIndex({'height': maxHeightBlock.height})
+      // this.blockItems[maxHeightBlockIndex].blockTime = data.arrived - maxHeightBlock.arrived
+      if (String(data.timestamp).length < 13) { 
+        data.blockTime = data.timestamp * 1000 - maxHeightBlock.timestamp * 1000
+      } else {
+        data.blockTime = data.timestamp - maxHeightBlock.timestamp
+      }
+    } else {
+      data.blockTime = 0
     }
     this.blockItems.push(data)
     return true
@@ -90,7 +97,11 @@ BlockList.prototype.sortByHeight = function (order) {
     log.warn('[BlockList] param order err, must in [asc, desc]')
     return
   }
-  return common.orderBy(this.blockItems, 'height', order)
+  if (order === 'asc') {
+    return common.orderBy(this.blockItems, function(item) {return Number(item.height)}) 
+  } else {
+    return common.orderBy(this.blockItems, function(item) {return -Number(item.height)})
+  }
 }
 
 /**

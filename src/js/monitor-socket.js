@@ -20,9 +20,9 @@ var VueClient = function VueClient (vueDataMain, vueDataTest) {
 // VueClient setEventListener
 VueClient.prototype.VueSetupListener = function () {
   var self = this
-
+  var bowerClientHeartcheckTimeout = process.env.BOWER_CLIENT_HEARTCHECK_TIMEOUT || 5000
   var heartCheck = {
-    timeout: process.env.BOWER_CLIENT_HEARTCHECK_TIMEOUT || 5000,
+    timeout: Number(bowerClientHeartcheckTimeout),
     timeoutObj: null,
     serverTimeoutObj: null,
     reset: function () {
@@ -47,11 +47,12 @@ VueClient.prototype.VueSetupListener = function () {
   function reconnect (url) {
     if (lockReconnect) return
     lockReconnect = true
+    var bowerClientReconnectTimeout = process.env.BOWER_CLIENT_RECONNECT_TIMEOUT || 5000
     setTimeout(function () {
       self.vueClient = new WebSocket(address)
       self.clientId = self.vueClient.id
       lockReconnect = false
-    }, process.env.BOWER_CLIENT_RECONNECT_TIMEOUT || 5000)
+    }, Number(bowerClientReconnectTimeout))
   }
 
   // ===========event about connect=============================
