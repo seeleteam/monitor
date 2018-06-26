@@ -1,6 +1,6 @@
 var log = require('log4js').getLogger('model/Node')
 var common = require('lodash')
-var MonitorError = require('./MonitorError')
+// var MonitorError = require('./MonitorError')
 
 /**
  * @class Node
@@ -208,7 +208,7 @@ Node.prototype.filterNodeInfo = function (newData, oldData) {
         newData.shard !== oldData.shard ||
         newData.protocol !== oldData.protocol ||
         newData.api !== oldData.api ||
-        newData.node !== oldData.node ||        
+        newData.node !== oldData.node ||
         newData.port !== oldData.port) {
     resData.updateFlag = 1
     resData.data = newData

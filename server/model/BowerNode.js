@@ -1,5 +1,5 @@
 var common = require('lodash')
-var MonitorError = require('./MonitorError')
+// var MonitorError = require('./MonitorError')
 
 /**
  * @class BowerNode
@@ -123,7 +123,7 @@ BowerNode.prototype.hasDiffNodeInfo = function (newInfo, oldInfo) {
         newInfo.os_v !== oldInfo.os_v ||
         newInfo.client !== oldInfo.client ||
         newInfo.netVersion !== oldInfo.netVersion ||
-        newInfo.shard !== oldInfo.shard ||        
+        newInfo.shard !== oldInfo.shard ||
         newInfo.protocol !== oldInfo.protocol ||
         newInfo.api !== oldInfo.api ||
         newInfo.port !== oldInfo.port ||

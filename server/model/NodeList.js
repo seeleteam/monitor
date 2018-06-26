@@ -1,6 +1,6 @@
 var log = require('log4js').getLogger('model/NodeList')
 var common = require('lodash')
-var MonitorError = require('./MonitorError')
+// var MonitorError = require('./MonitorError')
 
 /**
  * @class NodeList

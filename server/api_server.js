@@ -160,7 +160,7 @@ ApiServer.prototype.ApiSetupListener = function () {
         server.clientStateList.push({id: data.id, timestamp: common.now()})
       } else {
         server.clientStateList[stateIndex].timestamp = common.now()
-      }      
+      }
       // process data and write
       if (data.netVersion === 1) {
         server.monitorDataMain.addData(data, function (err) {
@@ -194,7 +194,7 @@ ApiServer.prototype.ApiSetupListener = function () {
       if (Number(process.env.NODE_SHARD) !== data.shard) {
         log.error('[APIServer] stats: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
-      }      
+      }
       // find node info by node id
       var nodeIndex = server.monitorDataMain.nodeList.findIndex({id: data.id})
       var mainExistFlag = 0
@@ -242,7 +242,7 @@ ApiServer.prototype.ApiSetupListener = function () {
       if (Number(process.env.NODE_SHARD) !== data.shard) {
         log.error('[APIServer] block: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
-      }       
+      }
       // find node info by node id
       var nodeIndex = server.monitorDataMain.nodeList.findIndex({id: data.id})
       var mainExistFlag = 0
@@ -306,7 +306,7 @@ ApiServer.prototype.ApiSetupListener = function () {
       if (Number(process.env.NODE_SHARD) !== data.shard) {
         log.error('[APIServer] ping: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
-      } 
+      }
       pingResData = {
         'emit': [
           'node-pong',
@@ -335,7 +335,7 @@ ApiServer.prototype.ApiSetupListener = function () {
       if (Number(process.env.NODE_SHARD) !== data.shard) {
         log.error('[APIServer] latency: node shard[', data.shard, '] not equal ', process.env.NODE_SHARD)
         return false
-      } 
+      }
       // find node info by node id
       var nodeIndex = server.monitorDataMain.nodeList.findIndex({id: data.id})
       var mainExistFlag = 0
@@ -388,7 +388,7 @@ ApiServer.prototype.ApiSetupListener = function () {
         funcNodeStatsRealTime(self, self.api_client, self.clientStateList[i].id, false)
       }
     }
-  }, Number(clientConnInterval)
+  }, Number(clientConnInterval))
 
   // Event process function: process nodeStatsRealTime event
   var funcNodeStatsRealTime = function (server, client, nodeId, statFlag) {

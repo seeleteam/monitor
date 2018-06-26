@@ -1,7 +1,7 @@
 var log = require('log4js').getLogger('model/BowerData')
 var BowerNode = require('./BowerNode')
 var common = require('lodash')
-var MonitorError = require('./MonitorError')
+// var MonitorError = require('./MonitorError')
 
 /**
  * @class BowerData
@@ -194,7 +194,7 @@ BowerData.prototype.calcAvgBlockTime = function (monitorData) {
     calcBlockNum++
     // calc by arrived
     // calcBlockTimeSum += currentBlock.arrived - preBlock.arrived
-    if (String(currentBlock.timestamp).length < 13) { 
+    if (String(currentBlock.timestamp).length < 13) {
       calcBlockTimeSum += currentBlock.timestamp * 1000 - preBlock.timestamp * 1000
     } else {
       calcBlockTimeSum += currentBlock.timestamp - preBlock.timestamp
@@ -221,8 +221,8 @@ BowerData.prototype.calcAvgNetHashRate = function (bestBlockInfo, avgBlockTime) 
     return tmpAvgNetHashRate
   }
 
-  var v_avgBlockTime = avgBlockTime / (1000 * 1000)
-  tmpAvgNetHashRate = (bestBlockInfo.block.difficulty / v_avgBlockTime)
+  var vAvgBlockTime = avgBlockTime / (1000 * 1000)
+  tmpAvgNetHashRate = (bestBlockInfo.block.difficulty / vAvgBlockTime)
 
   return tmpAvgNetHashRate.toFixed(2) * 1000
 }
@@ -367,14 +367,14 @@ BowerData.prototype.getBowerData = function () {
     avgNetHashRate: this.avgNetHashRate,
     totalTransactions: this.totalTransactions,
     // nodeItems: this.nodeItems,
-    nodeItems: common.orderBy(this.nodeItems, function(item) {if(item.state === 1) return Number(item.nodeLatency)}),
+    nodeItems: common.orderBy(this.nodeItems, function (item) { if (item.state === 1) return Number(item.nodeLatency) }),
     statCharData: this.statCharData
   }
 }
 
 /**
  * @method printAll
- * @desc print current bowerData 
+ * @desc print current bowerData
  */
 BowerData.prototype.printAll = function () {
   log.debug('===========current bowerData=============')
@@ -386,7 +386,7 @@ BowerData.prototype.printAll = function () {
   log.debug('avgNetHashRate: ', this.avgNetHashRate)
   log.debug('totalTransactions: ', this.totalTransactions)
   log.debug('nodeItems: ')
-  for (var i=0;i < this.nodeItems.length; i++) {
+  for (var i = 0; i < this.nodeItems.length; i++) {
     log.debug('node[', i, ']: ', this.nodeItems[i])
   }
   log.debug('statCharData: ', this.statCharData)
