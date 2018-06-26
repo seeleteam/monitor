@@ -133,9 +133,9 @@ BowerServer.prototype.BowerSetupListener = function () {
             'message': self.bowerDataMain.getBowerData()
           }
           log.debug(intervalResDataMain)
-          self.bowerServer.clients.forEach(function each(clientTmp) {
+          self.bowerServer.clients.forEach(function each (clientTmp) {
             if (clientTmp.readyState === WebSocket.OPEN) {
-                clientTmp.send(JSON.stringify(intervalResDataMain));
+              clientTmp.send(JSON.stringify(intervalResDataMain))
             }
           })
         }
@@ -157,11 +157,11 @@ BowerServer.prototype.BowerSetupListener = function () {
             'message': self.bowerDataTest.getBowerData()
           }
           log.debug(intervalResDataTest)
-          self.bowerServer.clients.forEach(function each(clientTmp) {
+          self.bowerServer.clients.forEach(function each (clientTmp) {
             if (clientTmp.readyState === WebSocket.OPEN) {
-                clientTmp.send(JSON.stringify(intervalResDataTest));
+              clientTmp.send(JSON.stringify(intervalResDataTest))
             }
-          })          
+          })
         }
       }
     }

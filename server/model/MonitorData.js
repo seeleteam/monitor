@@ -78,27 +78,27 @@ MonitorData.prototype.addData = function (data, callback) {
       resData.stats.latency = filterResult.data.latency
 
       this.nodeList.nodeItems.push(resData)
-    } else if(filterResult.existFlag && filterResult.updateFlag) {
+    } else if (filterResult.existFlag && filterResult.updateFlag) {
       this.monitorUpdateFlag = true
-      var resData = common.cloneDeep(data)
+      var resDataE = common.cloneDeep(data)
       if (!common.isUndefined(filterResult.data.geo) && !common.isUndefined(filterResult.data.geo.ip)) {
-        resData.geo = filterResult.data.geo
+        resDataE.geo = filterResult.data.geo
       }
       if (!common.isUndefined(filterResult.data.info) && !common.isUndefined(filterResult.data.info.name)) {
-        resData.info = filterResult.data.info
+        resDataE.info = filterResult.data.info
       }
       if (!common.isUndefined(filterResult.data.stats) && !common.isUndefined(filterResult.data.stats.active)) {
-        resData.stats = filterResult.data.stats
-      } 
+        resDataE.stats = filterResult.data.stats
+      }
       if (!common.isUndefined(filterResult.data.block) && !common.isUndefined(filterResult.data.block.height)) {
-        resData.block = filterResult.data.block
+        resDataE.block = filterResult.data.block
       }
-      resData.block.arrived = common.now()
-      resData.block.blockTime = 0
+      resDataE.block.arrived = common.now()
+      resDataE.block.blockTime = 0
       if (!common.isUndefined(filterResult.data.latency)) {
-        resData.stats.latency = filterResult.data.latency
+        resDataE.stats.latency = filterResult.data.latency
       }
-      this.nodeList.nodeItems[filterResult.index] = resData
+      this.nodeList.nodeItems[filterResult.index] = resDataE
     }
     // add blockList
     if (!common.isUndefined(data.block)) {
@@ -171,7 +171,7 @@ MonitorData.prototype.updateData = function (data, callback) {
       }
       if (!common.isUndefined(filterResult.data.stats) && !common.isUndefined(filterResult.data.stats.active)) {
         resData.stats = filterResult.data.stats
-      } 
+      }
       if (!common.isUndefined(filterResult.data.block) && !common.isUndefined(filterResult.data.block.height)) {
         resData.block = filterResult.data.block
       }
@@ -180,7 +180,6 @@ MonitorData.prototype.updateData = function (data, callback) {
       if (!common.isUndefined(filterResult.data.latency)) {
         resData.stats.latency = filterResult.data.latency
       }
-      
       this.nodeList.nodeItems[filterResult.index] = resData
     }
   }
@@ -252,7 +251,7 @@ MonitorData.prototype.updateNodeLatency = function (data, callback) {
            filterResult.updateFlag) {
       this.monitorUpdateFlag = true
       this.nodeList.nodeItems[filterResult.index].stats.latency = filterResult.data.stats.latency
-      //if latency has diff, update the stats.active true
+      // if latency has diff, update the stats.active true
       this.nodeList.nodeItems[filterResult.index].stats.active = true
     }
   }
@@ -390,9 +389,8 @@ MonitorData.prototype.filterData = function (tag, data, callback) {
     }
   }
   log.debug('[MonitorData] after filterData: ', resData)
-
-  if(!common.isUndefined(callback) && callback !== null){
-      callback(err);
+  if (!common.isUndefined(callback) && callback !== null) {
+    callback(err)
   }
   return resData
 }

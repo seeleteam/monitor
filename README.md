@@ -77,7 +77,8 @@ BOWER_CLIENT_RECONNECT_TIMEOUT: 5000 // monitor vue client reconnect timeout
           "WS_CLIENT_CONN_TIMEOUT": 15, // check monitor client offline timeout
           "WS_CLIENT_CONN_INTERVAL": 30000, // check all monitor client offline interval
           "SERVER_PORT": 3000, // monitor backend port
-          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000 // monitor backend data update interval
+          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000, // monitor backend data update interval
+		  "NODE_SHARD": 1 //shard num
         },
         "env_production" : {
           "NODE_ENV": "production",
@@ -85,7 +86,8 @@ BOWER_CLIENT_RECONNECT_TIMEOUT: 5000 // monitor vue client reconnect timeout
           "WS_CLIENT_CONN_TIMEOUT": 15,
           "WS_CLIENT_CONN_INTERVAL": 30000,
           "SERVER_PORT": 3000,
-          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000
+          "BOWER_SERVER_DATA_UPDATE_INTERVAL": 5000,
+		  "NODE_SHARD": 1 
         }
       }
     ]

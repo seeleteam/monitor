@@ -26,7 +26,7 @@ var VueClient = function VueClient () {
       os_v: 'test_os_v1',
       client: 'test_client_1',
       netVersion: 1,
-      shard: 1,      
+      shard: 1,
       protocol: 'test_protocol_1',
       api: 'test_api_1',
       port: 30000,
@@ -81,7 +81,7 @@ VueClient.prototype.VueSetupListener = function () {
         id: data.id,
         latency: Math.ceil((common.now() - data.clientTime) / 2),
         netVersion: self.nodeInfo.info.netVersion,
-        shard: self.nodeInfo.info.shard        
+        shard: self.nodeInfo.info.shard
       }
     }
     var sendData = {
@@ -139,21 +139,20 @@ VueClient.prototype.VueSetupListener = function () {
     }
   })
 
-    setInterval(function () {
-      var reqData = {
-        id: self.clientId,
-        clientTime: common.now()
-      }
-      var sendData = {
-        'emit': [
-          'node-ping',
-          reqData
-        ]
-      }
-
-      self.vueClient.send(JSON.stringify(sendData))
-      log.info('node-ping data:', reqData)
-    }, 3000)
+  setInterval(function () {
+    var reqData = {
+      id: self.clientId,
+      clientTime: common.now()
+    }
+    var sendData = {
+      'emit': [
+        'node-ping',
+        reqData
+      ]
+    }
+    self.vueClient.send(JSON.stringify(sendData))
+    log.info('node-ping data:', reqData)
+  }, 3000)
 }
 
 module.exports = VueClient

@@ -1,6 +1,6 @@
 var log = require('log4js').getLogger('model/BlockList')
 var common = require('lodash')
-var MonitorError = require('./MonitorError')
+// var MonitorError = require('./MonitorError')
 var Const = require('./Const')
 
 /**
@@ -48,7 +48,7 @@ BlockList.prototype.addData = function (data) {
       // stat by the time of block arrived monitor
       // var maxHeightBlockIndex = this.findIndex({'height': maxHeightBlock.height})
       // this.blockItems[maxHeightBlockIndex].blockTime = data.arrived - maxHeightBlock.arrived
-      if (String(data.timestamp).length < 13) { 
+      if (String(data.timestamp).length < 13) {
         data.blockTime = data.timestamp * 1000 - maxHeightBlock.timestamp * 1000
       } else {
         data.blockTime = data.timestamp - maxHeightBlock.timestamp
@@ -98,9 +98,9 @@ BlockList.prototype.sortByHeight = function (order) {
     return
   }
   if (order === 'asc') {
-    return common.orderBy(this.blockItems, function(item) {return Number(item.height)}) 
+    return common.orderBy(this.blockItems, function (item) { return Number(item.height) })
   } else {
-    return common.orderBy(this.blockItems, function(item) {return -Number(item.height)})
+    return common.orderBy(this.blockItems, function (item) { return -Number(item.height) })
   }
 }
 
