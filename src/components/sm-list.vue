@@ -116,7 +116,7 @@
       sortable
       min-width="100">
       <template slot-scope="scope">
-        <span class="time" :class="{'th-offline':scope.row.state==0}">{{number | nodeLastBlockTimeValue([number, scope.row.nodeLastBlockTime])}} ago</span>
+        <span class="time" :class="{'th-offline':scope.row.state==0}">{{number | nodeLastBlockTimeValue([number, scope.row.nodeLastBlockTime])}}s ago</span>
       </template>
     </el-table-column>
     <el-table-column
