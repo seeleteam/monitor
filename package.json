@@ -16,6 +16,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "binary-pack": "^1.0.2",
     "browserchannel": "^2.1.0",
     "bufferutil": "^3.0.4",
