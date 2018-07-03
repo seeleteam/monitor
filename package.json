@@ -16,12 +16,12 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "binary-pack": "^1.0.2",
     "browserchannel": "^2.1.0",
     "bufferutil": "^3.0.4",
     "cluster": "^0.7.7",
     "dns": "^0.2.2",
-    "echarts": "^4.1.0",
     "element-theme": "^2.0.1",
     "element-ui": "^2.3.6",
     "engine.io": "^3.2.0",
@@ -49,6 +49,7 @@
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-jest": "^21.0.2",
     "babel-loader": "^7.1.4",
+    "babel-plugin-component": "^1.1.1",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",

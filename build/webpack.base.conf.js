@@ -40,6 +40,9 @@ module.exports = {
       '@': resolve('src')
     }
   },
+  externals: {
+    echarts: 'echarts'
+  },
   module: {
     // require
     unknownContextRegExp: /$^/,

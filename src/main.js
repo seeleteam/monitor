@@ -1,16 +1,29 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import ElementUI from 'element-ui'
 import App from './App'
 import router from './router'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueI18n from 'vue-i18n'
 import echarts from 'echarts'
+import { Select, Main, Aside, Popover, Option, OptionGroup, Input, Row, Col, Table, TableColumn, Tooltip, Container } from 'element-ui'
+
+Vue.use(Select)
+Vue.use(Main)
+Vue.use(Aside)
+Vue.use(Popover)
+Vue.use(Option)
+Vue.use(OptionGroup)
+Vue.use(Input)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Tooltip)
+Vue.use(Container)
 
 Vue.prototype.$echarts = echarts
 Vue.use(VueI18n)
-Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 function getLocalLanguage () {
