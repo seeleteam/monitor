@@ -266,7 +266,7 @@ export default {
 }
 .el-table td,
 .el-table th.is-leaf {
-  border-bottom: 1px solid #5a7ca8;
+  border-bottom: 1px solid #5a7ca8 !important;
 }
 .el-table__empty-block {
   background: #08274f;
@@ -279,6 +279,7 @@ export default {
 }
 .table-list-wrap{
   background: url("../assets/imgs/bg_04.png") no-repeat;
+  background-size: 100% auto;
 }
 .el-table__header-wrapper{
   position: relative;

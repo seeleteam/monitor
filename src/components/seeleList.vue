@@ -156,6 +156,7 @@ export default {
   .active-nodes-wrap {
     line-height: 18px;
     background: url("../assets/imgs/bg_04.png") no-repeat;
+    background-size: 100% auto;
     border-bottom: 1px solid #909090;
     padding: 10px 1%;
     .img-wrap {
@@ -189,6 +190,7 @@ export default {
     min-height: 500px;
     background: #08274f;
     background: url("../assets/imgs/bg_04.png") no-repeat;
+    background-size: 100% auto;
   }
   .seeleList-ul {
     height: 100%;
@@ -343,6 +345,11 @@ export default {
         }
       }
     }
+  }
+}
+@media screen and (min-width: 768px) {
+  .seeleList{
+    min-height: 950px;
   }
 }
 </style>
