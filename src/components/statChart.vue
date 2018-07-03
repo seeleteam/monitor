@@ -49,6 +49,7 @@
 
 // script define
 <script>
+import echarts from 'echarts'
 export default {
   props: {
     echartsDataHeight: Array,
@@ -86,7 +87,7 @@ export default {
     },
     drawChartTxCount () {
       let myChart = document.getElementById('chartTxCount')
-      let chartTxCount = this.$echarts.init(myChart)
+      let chartTxCount = echarts.init(myChart)
       chartTxCount.setOption({
         color: ['#1cfbf8'],
         tooltip: {
@@ -157,7 +158,7 @@ export default {
     },
     drawChartBlockTime () {
       let myChart = document.getElementById('chartBlockTime')
-      let chartBlockTime = this.$echarts.init(myChart)
+      let chartBlockTime = echarts.init(myChart)
       chartBlockTime.setOption({
         color: ['#edcc74'],
         tooltip: {
@@ -228,7 +229,7 @@ export default {
     },
     drawChartDifficulty () {
       let myChart = document.getElementById('chartDifficulty')
-      let chartDifficulty = this.$echarts.init(myChart)
+      let chartDifficulty = echarts.init(myChart)
       chartDifficulty.setOption({
         color: ['#28ff74'],
         tooltip: {

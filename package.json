@@ -22,7 +22,6 @@
     "bufferutil": "^3.0.4",
     "cluster": "^0.7.7",
     "dns": "^0.2.2",
-    "echarts": "^4.1.0",
     "element-theme": "^2.0.1",
     "element-ui": "^2.3.6",
     "engine.io": "^3.2.0",
