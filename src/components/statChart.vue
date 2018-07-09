@@ -30,7 +30,7 @@
     <el-col :xs='24' :lg='6' :md='6'>
       <div class='grid-content bg-purple'>
         <div class="chart-title-wrap chart-diff-title" :class="{'chart-title-bottom':!isDiff}">
-          <img class="chart-img sm-show" src="../assets/imgs/list/problem.png" alt="problem">
+          <img class="chart-img sm-show" src="../assets/imgs/data/ACTIVENODES.png" alt="problem">
           {{$t('message.statChart.blockDifficulty.title')}}
           <span class="chart-icon-wrap sm-show" @click="showCount(3)">
             <img src="../assets/imgs/chart/count-down.png" alt="drop-down">
