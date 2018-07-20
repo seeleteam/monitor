@@ -44,7 +44,7 @@ export default {
     }
   },
   mounted: function () {
-    // 默认语言为英文
+    // Change default lang settings from zh_cn to us_en
     this.chooseLanguage('en')
   },
   methods: {
