@@ -43,6 +43,10 @@ export default {
       selectLanguage: this.$i18n.locale
     }
   },
+  mounted: function () {
+    // 默认语言为英文
+    this.chooseLanguage('en')
+  },
   methods: {
     // chooseValue () {
     //   var objS = document.getElementById('selectId')
