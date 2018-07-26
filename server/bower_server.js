@@ -27,11 +27,11 @@ BowerServer.prototype.BowerSetupListener = function () {
   var self = this
   log.debug('main bowerData: ', self.bowerDataMain.getBowerData())
   log.debug('test bowerData: ', self.bowerDataTest.getBowerData())
-
+  // listen connection event
   this.bowerServer.on('connection', function connection (client) {
     self.bower_client = client
     log.info('[BowerServer] client connected.')
-
+    // listen message event
     client.on('message', function (data) {
       var resData
       try {
@@ -61,11 +61,11 @@ BowerServer.prototype.BowerSetupListener = function () {
         }
       }
     })
-
+    // listen error event
     client.on('error', function error (err) {
       log.error('[BowerServer] do process error event.', err)
     })
-
+    // listen close event
     client.on('close', function (code, reason) {
       log.warn('[BowerServer] client disconnect,code: ', code, ' reason: ', reason)
     })

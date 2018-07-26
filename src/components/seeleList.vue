@@ -96,7 +96,6 @@ export default {
     }, 1000)
 
     var vueClient = new VueClient(this.mainMonitorList, this.testMonitorList)
-    vueClient.VueSetupListener()
     setInterval(time => {
       this.mainMonitorList = vueClient.vueDataMain
       this.testMonitorList = vueClient.vueDataTest
