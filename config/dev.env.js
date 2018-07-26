@@ -9,6 +9,6 @@ const prodEnv = require('./prod.env')
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   BOWER_SERVER: '"ws://localhost:3000/bower"',
-  BOWER_CLIENT_HEARTCHECK_TIMEOUT: 5000,
-  BOWER_CLIENT_RECONNECT_TIMEOUT: 5000
+  BOWER_CLIENT_HEARTCHECK_TIMEOUT: 60000,
+  BOWER_CLIENT_RECONNECT_TIMEOUT: 3000
 })
