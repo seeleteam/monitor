@@ -186,7 +186,7 @@ export default {
     font-size: 18px;
   }
   .seeleList {
-    min-height: 500px;
+    min-height: 400px;
     background: #08274f;
     background: url("../assets/imgs/bg_04.png") no-repeat;
     background-size: 100% auto;
