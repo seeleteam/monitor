@@ -37,9 +37,9 @@ export default {
 .main {
   height: 100%;
   min-width: 1366px;
+  background: #08274f;
 }
 .main-wrap {
-  height: 100%;
   .main-content {
     height: 100%;
   }

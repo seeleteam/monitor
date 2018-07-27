@@ -186,7 +186,6 @@ export default {
     font-size: 18px;
   }
   .seeleList {
-    min-height: 500px;
     background: #08274f;
     background: url("../assets/imgs/bg_04.png") no-repeat;
     background-size: 100% auto;
@@ -344,11 +343,6 @@ export default {
         }
       }
     }
-  }
-}
-@media screen and (min-width: 768px) {
-  .seeleList{
-    min-height: 950px;
   }
 }
 </style>
