@@ -276,7 +276,7 @@ export default {
   background: #0b3365 !important;
 }
 .table-list-wrap{
-  background: transparent;
+  background: transparent !important;
   background-size: 100% auto;
 }
 .el-table__header-wrapper{
