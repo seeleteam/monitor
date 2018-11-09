@@ -2,7 +2,7 @@
 // Note: websocket bower client, connect the websocket server named BowerServer
 //    collect data for vue
 var common = require('lodash')
-var address = process.env.BOWER_SERVER || 'ws://localhost:3000/bower'
+var address = process.env.BOWER_SERVER || 'wss://localhost:3000/bower'
 var lockReconnect = false
 
 // VueClient constructed

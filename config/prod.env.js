@@ -6,7 +6,7 @@
 // BOWER_CLIENT_RECONNECT_TIMEOUT: reconnect timeout for front client connecting websocket
 module.exports = {
   NODE_ENV: '"production"',
-  BOWER_SERVER: '"ws://localhost:3000/bower"',
+  BOWER_SERVER: '"wss://localhost:3000/bower"',
   BOWER_CLIENT_HEARTCHECK_TIMEOUT: 5000,
   BOWER_CLIENT_RECONNECT_TIMEOUT: 5000
 }

@@ -6,7 +6,7 @@
 var log4js = require('log4js')
 var log = log4js.getLogger('vueclient')
 var common = require('lodash')
-var WebSocket = require('ws')
+var WebSocket = require('wss')
 
 // VueClient constructed
 var VueClient = function VueClient () {
