@@ -4,16 +4,16 @@
 // make a log directory
 
 var log4js = require('log4js')
-var log = log4js.getLogger('vueclient')
+var log = log4js.getLogger('apiClient')
 var common = require('lodash')
 var WebSocket = require('wss')
 
-// VueClient constructed
-var VueClient = function VueClient () {
+// ApiClient constructed
+var ApiClient = function ApiClient () {
   var address = process.env.BOWER_SERVER || 'ws://localhost:3000/api'
   log.info('[BowerClient] client connect:', address)
 
-  this.vueClient = new WebSocket(address, [], {})
+  this.apiClient = new WebSocket(address, [], {})
   this.clientId = (process.env.HOST || 'localhost') + ':' +
         (process.env.PORT || '3001') + '_' +
         common.random(0, 1000)
@@ -53,10 +53,10 @@ var VueClient = function VueClient () {
   return this
 }
 
-VueClient.prototype.VueSetupListener = function () {
+ApiClient.prototype.VueSetupListener = function () {
   var self = this
-  // this.vueClient.on('connect', function(){
-  this.vueClient.on('open', function open () {
+  // this.apiClient.on('connect', function(){
+  this.apiClient.on('open', function open () {
     log.info('[BowerClient] client connected.')
     log.info(self.nodeInfo)
     var sendData = {
@@ -65,10 +65,10 @@ VueClient.prototype.VueSetupListener = function () {
         self.nodeInfo
       ]
     }
-    self.vueClient.send(JSON.stringify(sendData))
+    self.apiClient.send(JSON.stringify(sendData))
   })
 
-  this.vueClient.on('node-pong', function (data) {
+  this.apiClient.on('node-pong', function (data) {
     // funcNodePong(self, data);
     log.info('[BowerClient] process: client node-pong.')
     var resData = {id: null, latency: null}
@@ -90,11 +90,11 @@ VueClient.prototype.VueSetupListener = function () {
         resData
       ]
     }
-    self.vueClient.send(JSON.stringify(sendData))
+    self.apiClient.send(JSON.stringify(sendData))
     log.info('client node-pong data:', resData)
   })
 
-  this.vueClient.on('message', function incoming (data) {
+  this.apiClient.on('message', function incoming (data) {
     log.info('[BowerClient] data: received some data', data)
     var receiveData
     try {
@@ -132,7 +132,7 @@ VueClient.prototype.VueSetupListener = function () {
               resData
             ]
           }
-          self.vueClient.send(JSON.stringify(sendData))
+          self.apiClient.send(JSON.stringify(sendData))
           log.info('client node-pong data:', resData)
           break
       }
@@ -150,9 +150,9 @@ VueClient.prototype.VueSetupListener = function () {
         reqData
       ]
     }
-    self.vueClient.send(JSON.stringify(sendData))
+    self.apiClient.send(JSON.stringify(sendData))
     log.info('node-ping data:', reqData)
   }, 3000)
 }
 
-module.exports = VueClient
+module.exports = ApiClient
