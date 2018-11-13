@@ -6,11 +6,11 @@
 var log4js = require('log4js')
 var log = log4js.getLogger('apiClient')
 var common = require('lodash')
-var WebSocket = require('wss')
+var WebSocket = require('ws')
 
 // ApiClient constructed
 var ApiClient = function ApiClient () {
-  var address = process.env.BOWER_SERVER || 'wss://localhost:3000/api'
+  var address = process.env.BOWER_SERVER || 'ws://localhost:3000/api'
   log.info('[BowerClient] client connect:', address)
 
   this.apiClient = new WebSocket(address, [], {})

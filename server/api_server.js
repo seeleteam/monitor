@@ -1,7 +1,7 @@
 // File: api_server.js
 // Note: websocket server for seele-monitor-api, collection data from seele node.
 var log = require('log4js').getLogger('apiserver')
-var WebSocket = require('wss')
+var WebSocket = require('ws')
 var common = require('lodash')
 var http = require('http')
 
