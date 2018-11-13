@@ -10,7 +10,7 @@ var WebSocket = require('wss')
 
 // VueClient constructed
 var VueClient = function VueClient () {
-  var address = process.env.BOWER_SERVER || 'ws://localhost:3000/api'
+  var address = process.env.BOWER_SERVER || 'wss://localhost:3000/api'
   log.info('[BowerClient] client connect:', address)
 
   this.vueClient = new WebSocket(address, [], {})
