@@ -3,11 +3,34 @@
 //    collect data for vue
 var common = require('lodash')
 var address = process.env.BOWER_SERVER || 'wss://localhost:3000/bower'
-var lockReconnect = false
+var vueClient
+var bowerClientHeartcheckTimeout = process.env.BOWER_CLIENT_HEARTCHECK_TIMEOUT || 60000
+var heartCheck = {
+  timeout: Number(bowerClientHeartcheckTimeout),
+  timeoutObj: null,
+  serverTimeoutObj: null,
+  reset: function () {
+    clearTimeout(this.timeoutObj)
+    clearTimeout(this.serverTimeoutObj)
+    this.start()
+  },
+  start: function () {
+    var self = this
+    this.timeoutObj = setTimeout(function () {
+      var hearData = {
+        'tag': 'hearcheck', 'message': {'id': self.clientId, 'msg': 'HeartBeat'}
+      }
+      vueClient.send(JSON.stringify(hearData))
+      // self.serverTimeoutObj = setTimeout(function () {
+      //   vueClient.close()
+      // }, self.timeout)
+    }, this.timeout)
+  }
+}
 
 // VueClient constructed
 var VueClient = function VueClient (vueDataMain, vueDataTest) {
-  this.vueClient = new WebSocket(address)
+  this.createWebSocket(address)
 
   this.vueDataMain = vueDataMain
   this.vueDataTest = vueDataTest
@@ -17,70 +40,43 @@ var VueClient = function VueClient (vueDataMain, vueDataTest) {
   return this
 }
 
-// VueClient setEventListener
-VueClient.prototype.VueSetupListener = function () {
+VueClient.prototype.createWebSocket = function (wsUrl) {
+  try {
+    vueClient = new WebSocket(wsUrl)
+    this.initWebSocket()
+  } catch (e) {
+    this.reconnect(wsUrl)
+  }
+}
+
+VueClient.prototype.initWebSocket = function () {
   var self = this
-  var bowerClientHeartcheckTimeout = process.env.BOWER_CLIENT_HEARTCHECK_TIMEOUT || 5000
-  var heartCheck = {
-    timeout: Number(bowerClientHeartcheckTimeout),
-    timeoutObj: null,
-    serverTimeoutObj: null,
-    reset: function () {
-      clearTimeout(this.timeoutObj)
-      clearTimeout(this.serverTimeoutObj)
-      this.start()
-    },
-    start: function () {
-      // var startSelf = this
-      this.timeoutObj = setTimeout(function () {
-        var hearData = {
-          'tag': 'hearcheck', 'message': {'id': self.clientId, 'msg': 'HeartBeat'}
-        }
-        self.vueClient.send(JSON.stringify(hearData))
-        // startSelf.serverTimeoutObj = setTimeout(function () {
-        //   self.vueClient.close()
-        // }, startSelf.timeout)
-      }, this.timeout)
-    }
-  }
-
-  function reconnect (url) {
-    if (lockReconnect) return
-    lockReconnect = true
-    var bowerClientReconnectTimeout = process.env.BOWER_CLIENT_RECONNECT_TIMEOUT || 5000
-    setTimeout(function () {
-      self.vueClient = new WebSocket(address)
-      self.clientId = self.vueClient.id
-      lockReconnect = false
-    }, Number(bowerClientReconnectTimeout))
-  }
-
   // ===========event about connect=============================
   // open event
-  this.vueClient.onopen = function () {
+  vueClient.onopen = function () {
     heartCheck.reset()
     heartCheck.start()
     console.log('[BowerClient] client connected.')
     var resData = {
       'tag': 'hello', 'message': {'id': self.clientId}
     }
-    self.vueClient.send(JSON.stringify(resData))
+    vueClient.send(JSON.stringify(resData))
   }
 
   // close event
-  this.vueClient.onclose = function (code, reason) {
+  vueClient.onclose = function (code, reason) {
     console.log('[BowerClient] client disconnect,code: ', code, ' reason: ', reason)
-    reconnect(address)
+    self.reconnect(address)
   }
 
   // error event
-  this.vueClient.onerror = function (err) {
+  vueClient.onerror = function (err) {
     console.log('[BowerClient] Socket error:', err)
-    reconnect(address)
+    self.reconnect(address)
   }
 
   // message event
-  this.vueClient.onmessage = function (event) {
+  vueClient.onmessage = function (event) {
     heartCheck.reset()
     heartCheck.start()
     var resData
@@ -118,6 +114,18 @@ VueClient.prototype.VueSetupListener = function () {
       }
     }
   }
+}
+
+VueClient.prototype.reconnect = function (url) {
+  var self = this
+  var bowerClientReconnectTimeout = process.env.BOWER_CLIENT_RECONNECT_TIMEOUT || 3000
+  var timer = setTimeout(function () {
+    if (vueClient.readyState !== 1) {
+      self.createWebSocket(url)
+    } else if (vueClient.readyState === 1) {
+      clearTimeout(timer)
+    }
+  }, Number(bowerClientReconnectTimeout))
 }
 
 VueClient.prototype.getVueDataMain = function () {

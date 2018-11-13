@@ -12,7 +12,6 @@
     :data="nodeItems"
     style="width: 100%"
     class="table-list-wrap"
-    max-height="500"
     :empty-text="$t('message.noData')">
     <el-table-column
       prop="nodeGeo"
@@ -269,7 +268,6 @@ export default {
   border-bottom: 1px solid #5a7ca8 !important;
 }
 .el-table__empty-block {
-  background: #08274f;
   .el-table__empty-text {
     color: #5a7ca8;
   }
@@ -278,7 +276,7 @@ export default {
   background: #0b3365 !important;
 }
 .table-list-wrap{
-  background: url("../assets/imgs/bg_04.png") no-repeat;
+  background: transparent !important;
   background-size: 100% auto;
 }
 .el-table__header-wrapper{
@@ -297,7 +295,6 @@ export default {
       }
     }
   }
-
 }
 .el-table .sort-caret.ascending{
   border-bottom-color: #7798c2;

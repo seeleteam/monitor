@@ -1,131 +1,158 @@
 // File: monitor-socket.js
 // Note: websocket bower client, connect the websocket server named BowerServer
-//    collect data for vue
+//      collect data for vue
+// make a log directory
+
+var log4js = require('log4js')
+var log = log4js.getLogger('apiClient')
 var common = require('lodash')
-var address = process.env.BOWER_SERVER || 'wss://localhost:3000/bower'
-var lockReconnect = false
+var WebSocket = require('wss')
 
-// VueClient constructed
-var VueClient = function VueClient (vueDataMain, vueDataTest) {
-  this.vueClient = new WebSocket(address)
+// ApiClient constructed
+var ApiClient = function ApiClient () {
+  var address = process.env.BOWER_SERVER || 'wss://localhost:3000/api'
+  log.info('[BowerClient] client connect:', address)
 
-  this.vueDataMain = vueDataMain
-  this.vueDataTest = vueDataTest
+  this.apiClient = new WebSocket(address, [], {})
+  this.clientId = (process.env.HOST || 'localhost') + ':' +
+        (process.env.PORT || '3001') + '_' +
+        common.random(0, 1000)
 
-  this.clientId = address + '_' + common.random(0, 1000)
-
+  this.nodeInfo = {
+    id: this.clientId,
+    info: {
+      name: 'test_api_2',
+      os: 'test_os_1',
+      os_v: 'test_os_v1',
+      client: 'test_client_1',
+      netVersion: 1,
+      shard: 1,
+      protocol: 'test_protocol_1',
+      api: 'test_api_1',
+      port: 30000,
+      canUpdateHistory: true,
+      node: true
+    },
+    stats: {
+      active: true,
+      mining: false,
+      syncing: true,
+      peers: 2
+    },
+    latency: 0,
+    block: {
+      height: 2342352,
+      timestamp: 122266999457689,
+      difficulty: 42090990,
+      txcount: 61,
+      miners: 'test_minier_1'
+    },
+    netVersion: 1,
+    shard: 1
+  }
   return this
 }
 
-// VueClient setEventListener
-VueClient.prototype.VueSetupListener = function () {
+ApiClient.prototype.VueSetupListener = function () {
   var self = this
-  var bowerClientHeartcheckTimeout = process.env.BOWER_CLIENT_HEARTCHECK_TIMEOUT || 5000
-  var heartCheck = {
-    timeout: Number(bowerClientHeartcheckTimeout),
-    timeoutObj: null,
-    serverTimeoutObj: null,
-    reset: function () {
-      clearTimeout(this.timeoutObj)
-      clearTimeout(this.serverTimeoutObj)
-      this.start()
-    },
-    start: function () {
-      // var startSelf = this
-      this.timeoutObj = setTimeout(function () {
-        var hearData = {
-          'tag': 'hearcheck', 'message': {'id': self.clientId, 'msg': 'HeartBeat'}
-        }
-        self.vueClient.send(JSON.stringify(hearData))
-        // startSelf.serverTimeoutObj = setTimeout(function () {
-        //   self.vueClient.close()
-        // }, startSelf.timeout)
-      }, this.timeout)
+  // this.apiClient.on('connect', function(){
+  this.apiClient.on('open', function open () {
+    log.info('[BowerClient] client connected.')
+    log.info(self.nodeInfo)
+    var sendData = {
+      'emit': [
+        'hello',
+        self.nodeInfo
+      ]
     }
-  }
+    self.apiClient.send(JSON.stringify(sendData))
+  })
 
-  function reconnect (url) {
-    if (lockReconnect) return
-    lockReconnect = true
-    var bowerClientReconnectTimeout = process.env.BOWER_CLIENT_RECONNECT_TIMEOUT || 5000
-    setTimeout(function () {
-      self.vueClient = new WebSocket(address)
-      self.clientId = self.vueClient.id
-      lockReconnect = false
-    }, Number(bowerClientReconnectTimeout))
-  }
-
-  // ===========event about connect=============================
-  // open event
-  this.vueClient.onopen = function () {
-    heartCheck.reset()
-    heartCheck.start()
-    console.log('[BowerClient] client connected.')
-    var resData = {
-      'tag': 'hello', 'message': {'id': self.clientId}
+  this.apiClient.on('node-pong', function (data) {
+    // funcNodePong(self, data);
+    log.info('[BowerClient] process: client node-pong.')
+    var resData = {id: null, latency: null}
+    if (common.isUndefined(data)) {
+      resData = {id: null, latency: null}
+    } else if (common.isUndefined(data.clientTime)) {
+      resData = {id: data.id, latency: null}
+    } else {
+      resData = {
+        id: data.id,
+        latency: Math.ceil((common.now() - data.clientTime) / 2),
+        netVersion: self.nodeInfo.info.netVersion,
+        shard: self.nodeInfo.info.shard
+      }
     }
-    self.vueClient.send(JSON.stringify(resData))
-  }
+    var sendData = {
+      'emit': [
+        'latency',
+        resData
+      ]
+    }
+    self.apiClient.send(JSON.stringify(sendData))
+    log.info('client node-pong data:', resData)
+  })
 
-  // close event
-  this.vueClient.onclose = function (code, reason) {
-    console.log('[BowerClient] client disconnect,code: ', code, ' reason: ', reason)
-    reconnect(address)
-  }
-
-  // error event
-  this.vueClient.onerror = function (err) {
-    console.log('[BowerClient] Socket error:', err)
-    reconnect(address)
-  }
-
-  // message event
-  this.vueClient.onmessage = function (event) {
-    heartCheck.reset()
-    heartCheck.start()
-    var resData
+  this.apiClient.on('message', function incoming (data) {
+    log.info('[BowerClient] data: received some data', data)
+    var receiveData
     try {
-      resData = JSON.parse(event.data)
+      receiveData = JSON.parse(data)
     } catch (err) {
-      console.log('[BowerClient] receive invalid data: ', event.data, ' err:', err)
+      log.error('[APIServer] receive invalid data: ', data, ' err:', err)
       return false
     }
-
-    if (!common.isUndefined(resData)) {
-      var dataTag = resData.tag
-      if (common.isUndefined(resData.message)) {
-        console.log('[BowerClient] receive invalid data.')
+    if (!common.isUndefined(receiveData) && !common.isUndefined(receiveData.emit) && receiveData.emit.length > 0) {
+      var dataTag = receiveData.emit[0]
+      var dataInfo = receiveData.emit[1]
+      if (common.isUndefined(dataInfo) || common.isUndefined(dataInfo.id)) {
+        log.debug('[APIServer] receive invalid data.')
         return
       }
       switch (dataTag) {
-        case 'init':
-          // data format: {id:xx, info:{}, stats:{}, block:{}}
-          if (!common.isUndefined(resData.message)) {
-            self.vueDataMain = resData.message.main
-            self.vueDataTest = resData.message.test
+        case 'node-pong':
+          // data format: {id:xx, clientTime:{}, serverTime:{}}
+          var resData = {id: null, latency: null}
+          if (common.isUndefined(data)) {
+            resData = {id: null, latency: null}
+          } else if (common.isUndefined(dataInfo.clientTime)) {
+            resData = {id: dataInfo.id, latency: null}
+          } else {
+            resData = {
+              id: dataInfo.id,
+              latency: Math.ceil((common.now() - dataInfo.clientTime) / 2),
+              netVersion: self.nodeInfo.info.netVersion,
+              shard: self.nodeInfo.info.shard
+            }
           }
-          break
-        case 'maindata':
-          // ping data format: {tag: 'stats', message:{id:xx, clientTime:xx}}
-          // pong data format: {id:xx, clientTime:xx, serverTime: xx}
-          self.vueDataMain = resData.message
-          break
-        case 'testdata':
-          // ping data format: {tag: 'stats', message:{id:xx, clientTime:xx}}
-          // pong data format: {id:xx, clientTime:xx, serverTime: xx}
-          self.vueDataTest = resData.message
+          var sendData = {
+            'emit': [
+              'latency',
+              resData
+            ]
+          }
+          self.apiClient.send(JSON.stringify(sendData))
+          log.info('client node-pong data:', resData)
           break
       }
     }
-  }
+  })
+
+  setInterval(function () {
+    var reqData = {
+      id: self.clientId,
+      clientTime: common.now()
+    }
+    var sendData = {
+      'emit': [
+        'node-ping',
+        reqData
+      ]
+    }
+    self.apiClient.send(JSON.stringify(sendData))
+    log.info('node-ping data:', reqData)
+  }, 3000)
 }
 
-VueClient.prototype.getVueDataMain = function () {
-  return this.vueDataMain
-}
-
-VueClient.prototype.getVueDataTest = function () {
-  return this.vueDataTest
-}
-
-export default VueClient
+module.exports = ApiClient

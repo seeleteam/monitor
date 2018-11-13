@@ -52,15 +52,15 @@ nginx -s reload
 ``` bash
 NODE_ENV: '"development"',  // dev mode
 BOWER_SERVER: '"ws://localhost:3000/bower"', // monitor backend websocket server
-BOWER_CLIENT_HEARTCHECK_TIMEOUT: 5000, // monitor vue client heartcheck timeout
-BOWER_CLIENT_RECONNECT_TIMEOUT: 5000 // monitor vue client reconnect timeout
+BOWER_CLIENT_HEARTCHECK_TIMEOUT: 60000, // monitor vue client heartcheck timeout
+BOWER_CLIENT_RECONNECT_TIMEOUT: 3000 // monitor vue client reconnect timeout
 ```
 ### config/prod.env.js
 ``` bash
 NODE_ENV: '"production"', // prod mode
 BOWER_SERVER: '"ws://IP:3000/bower"', // monitor backend websocket server
-BOWER_CLIENT_HEARTCHECK_TIMEOUT: 5000, // monitor vue client heartcheck timeout
-BOWER_CLIENT_RECONNECT_TIMEOUT: 5000 // monitor vue client reconnect timeout
+BOWER_CLIENT_HEARTCHECK_TIMEOUT: 60000, // monitor vue client heartcheck timeout
+BOWER_CLIENT_RECONNECT_TIMEOUT: 3000 // monitor vue client reconnect timeout
 ```
 ### config/process.json
 ``` bash
