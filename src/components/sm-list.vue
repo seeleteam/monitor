@@ -295,7 +295,6 @@ export default {
       }
     }
   }
-
 }
 .el-table .sort-caret.ascending{
   border-bottom-color: #7798c2;

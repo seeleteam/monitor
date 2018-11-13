@@ -94,7 +94,6 @@ export default {
     setInterval(time => {
       this.number++
     }, 1000)
-
     var vueClient = new VueClient(this.mainMonitorList, this.testMonitorList)
     setInterval(time => {
       this.mainMonitorList = vueClient.vueDataMain

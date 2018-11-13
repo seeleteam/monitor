@@ -1,7 +1,7 @@
 // File: bower_server.js
 // Note: websocket server for seele-monitor vue, transfer data for vue module.
 var log = require('log4js').getLogger('bowerserver')
-var WebSocket = require('ws')
+var WebSocket = require('wss')
 var common = require('lodash')
 
 // BowerServer constructed
